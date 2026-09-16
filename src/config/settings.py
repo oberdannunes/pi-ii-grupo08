@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'admin_extra_buttons',
     'rest_framework',
+    'rest_framework_api_key',
     'django_filters',
     'core',
     'tracking',
