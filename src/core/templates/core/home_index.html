@@ -87,7 +87,8 @@
                         {% endif %}
                         <input type="text" name="cnpj" class="form-control mb-3" placeholder="CNPJ" maxlength="18">
                         <input type="text" name="nfe" class="form-control mb-3" placeholder="Número da Nota Fiscal (NFe)" maxlength="20">
-                        <button type="submit" class="btn w-100 text-white fw-bold" style="background: #150b5e; border-radius: 8px; padding: 10px;">Consultar</button>
+                        <button type="submit" class="btn w-100 text-white fw-bold mb-2" style="background: #150b5e; border-radius: 8px; padding: 10px;">Consultar</button>
+                        <a href="{% url 'tracking:dashboard' %}" class="btn w-100 btn-outline-primary fw-bold" style="color: #150b5e; border-color: #150b5e; border-radius: 8px; padding: 10px;">Dashboard de Logística</a>
                     </form>
                 </div>
             </div>
