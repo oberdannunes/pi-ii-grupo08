@@ -6,10 +6,18 @@
 
 {% block extra_css %}
 <style>
+    input:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+        outline: 3px solid #ffbf47;
+        outline-offset: 2px;
+    }
+
     body {
         background: #f0f2f5;
         min-height: 100vh;
     }
+
     .hero {
         background-color: #150b5e;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M12,5C9.8,5,8,6.8,8,9c0,3,4,7,4,7s4-4,4-7C16,6.8,14.2,5,12,5z M12,10.5c-.83,0-1.5-.67-1.5-1.5s.67-1.5,1.5-1.5,1.5.67,1.5,1.5S12.83,10.5,12,10.5z' fill='rgba(255,255,255,0.025)'/%3E%3Cpath d='M37,38c-2.2,0-4-1.8-4-4c0-3,4-7,4-7s4,4,4,7C41,36.2,39.2,38,37,38z M37,32.5c-.83,0-1.5.67-1.5,1.5s.67,1.5,1.5,1.5,1.5-.67,1.5-1.5S37.83,32.5,37,32.5z' fill='rgba(255,255,255,0.025)'/%3E%3C/svg%3E");
@@ -19,57 +27,99 @@
     }
 
     @keyframes pinDrop {
-        0% { transform: translateY(-100px); opacity: 0; }
-        50% { transform: translateY(8px); opacity: 1; }
-        70% { transform: translateY(-4px); }
-        100% { transform: translateY(0); }
+        0% {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+
+        50% {
+            transform: translateY(8px);
+            opacity: 1;
+        }
+
+        70% {
+            transform: translateY(-4px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
     }
+
     @keyframes fadeIn {
-        0% { opacity: 0; transform: translateY(10px); }
-        100% { opacity: 1; transform: translateY(0); }
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .logo-container svg .pin {
-        animation: pinDrop 0.9s ease-out;
+        animation: pinDrop 0.2s ease-out;
     }
+
     .logo-container svg .letters {
         opacity: 0;
-        animation: fadeIn 0.8s ease-out 0.7s forwards;
+        animation: fadeIn 0.3s ease-out 0.1s forwards;
     }
+
     .welcome-text {
         opacity: 0;
-        animation: fadeIn 0.8s ease-out 1.2s forwards;
+        animation: fadeIn 0.1s ease-out 0s forwards;
     }
-    .search-card {
+
+        .search-card {
         opacity: 0;
-        animation: fadeIn 0.8s ease-out 1.5s forwards;
+        animation: fadeIn 0.2s ease-out 0s forwards;
         border: none;
         border-radius: 12px;
         margin-top: -30px;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        .logo-container svg .pin,
+        .logo-container svg .letters,
+        .welcome-text,
+        .search-card {
+            animation: none;
+            opacity: 1;
+        }
+    }
+
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="hero">
     <div class="logo-container">
-        <svg viewBox="0 0 907 793" width="200" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 907 793" width="200" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="Logotipo FastLog">
             <g class="pin">
-                <path fill="#c60000" d="M595.5,419.7c-.7-21.6-5.4-42.2-13.9-61-8.4-18.8-20.5-35.8-35.9-50-28.4-26.3-65.4-40.5-104.7-40.5s-5.1,0-7.6.2c-44.1,2-85,23.4-112.1,58.5-27.4,35.4-37.7,80.8-28.4,124.6,10.1,47.5,39.1,106.9,88.5,181.4,21,31.6,41.6,59.7,63,85.8,35.8-45.7,65.3-88.5,90.2-130.9,41.7-71.2,62.2-127.7,60.9-167.9ZM442.3,527.1c-57,0-103.5-46.4-103.5-103.5s46.4-103.5,103.5-103.5,103.5,46.4,103.5,103.5-46.4,103.5-103.5,103.5Z"/>
-                <ellipse fill="#c60000" cx="444.8" cy="748.5" rx="65.6" ry="14.6"/>
+                <path fill="#c60000"
+                    d="M595.5,419.7c-.7-21.6-5.4-42.2-13.9-61-8.4-18.8-20.5-35.8-35.9-50-28.4-26.3-65.4-40.5-104.7-40.5s-5.1,0-7.6.2c-44.1,2-85,23.4-112.1,58.5-27.4,35.4-37.7,80.8-28.4,124.6,10.1,47.5,39.1,106.9,88.5,181.4,21,31.6,41.6,59.7,63,85.8,35.8-45.7,65.3-88.5,90.2-130.9,41.7-71.2,62.2-127.7,60.9-167.9ZM442.3,527.1c-57,0-103.5-46.4-103.5-103.5s46.4-103.5,103.5-103.5,103.5,46.4,103.5,103.5-46.4,103.5-103.5,103.5Z" />
+                <ellipse fill="#c60000" cx="444.8" cy="748.5" rx="65.6" ry="14.6" />
             </g>
             <g class="letters">
-                <path fill="white" d="M88.8,244.7l8.4-183.8h153.5l-1.2,26.9h-121.2l-3,65h89l-1.2,26.3h-89l-3,65.6h-32.3Z"/>
-                <path fill="white" d="M393,244.7l-15.9-47.2,12.3,8.5h-110.8l12.7-7.6-19.8,46.4h-33.9l80.3-183.8h45.9l63.5,183.8h-34.2ZM338.5,87l-43.3,102.1-6.3-7.9h92.4l-6.7,8.2-34-102.3h-2.2Z"/>
-                <path fill="white" d="M632.7,176l-1.8,38.7c-.4,7.9-3.5,14.9-9.3,20.9-5.9,6-14.3,9-25.3,9h-101.6c-5.9,0-11.2-.9-16-2.8-4.8-1.9-8.5-4.9-11.3-9-2.8-4.1-4-9.5-3.7-16.1l1.5-31.9h31.3l-1.5,33.4h104.2l1.9-41.6-115.5-28c-4.6-1.3-8.1-3-10.7-5.1-2.5-2.1-4.4-4.6-5.5-7.6-1.1-3-1.6-6.4-1.4-10.2l1.9-41.8c.4-8.3,3.3-14.2,8.7-17.7,5.4-3.5,12.4-5.2,20.8-5.2h110.5c7,0,12.5,1.3,16.6,3.8,4.1,2.5,6.9,6.3,8.4,11.2,1.5,4.9,2,10.6,1.7,17.2l-1.1,25.2h-31.7l1.4-31.1h-104.2l-1.7,37.6,118.7,29.1c4,1.1,7,2.6,9.1,4.5,2.1,1.9,3.7,4.2,4.6,7.1.9,2.8,1.3,6.3,1.1,10.5Z"/>
-                <path fill="white" d="M738.8,244.7l7.2-156.9h-72.2l1.2-26.9h177l-1.2,26.9h-72.2l-7.2,156.9h-32.6Z"/>
-                <path fill="white" d="M179.1,572.1v-276.6c0-6.1-4.9-11-11-11h-73.3c-6.1,0-11,4.9-11,11v354.2c0,6.1,4.9,11,11,11h209.9c6.1,0,11-4.9,11-11v-55.5c0-6.1-4.9-11-11-11h-114.6c-6.1,0-11-4.9-11-11Z"/>
-                <path fill="white" d="M835.9,411.8c6.1,0,11-4.9,11-11v-34.1c0-25.5-5.1-45.5-15.2-60.2-10.2-14.7-29.5-22-58-22h-80.4c-22.5,0-40.6,4.9-54.4,14.8-13.8,9.8-20.7,26.1-20.7,48.9v239.6c0,25.9,6.9,44.5,20.7,55.9,13.8,11.4,32.2,17.1,55.1,17.1h79.7c19.4,0,34.4-3.8,45-11.3,10.6-7.5,17.9-17.3,22-29.2,4.1-12,6.2-24.3,6.2-37.1v-126.7c0-6.1-4.9-11-11-11h-92.7c-6.1,0-11,4.9-11,11v43.9c0,6.1,4.9,11,11,11h0c6.1,0,11,4.9,11,11v49.7c0,6.1-4.9,11-11,11h-18.8c-6.1,0-11-4.9-11-11v-198.5c0-6.1,4.9-11,11-11h16.2c6.1,0,11,4.9,11,11v27.2c0,6.1,4.9,11,11,11h73.3Z"/>
+                <path fill="white"
+                    d="M88.8,244.7l8.4-183.8h153.5l-1.2,26.9h-121.2l-3,65h89l-1.2,26.3h-89l-3,65.6h-32.3Z" />
+                <path fill="white"
+                    d="M393,244.7l-15.9-47.2,12.3,8.5h-110.8l12.7-7.6-19.8,46.4h-33.9l80.3-183.8h45.9l63.5,183.8h-34.2ZM338.5,87l-43.3,102.1-6.3-7.9h92.4l-6.7,8.2-34-102.3h-2.2Z" />
+                <path fill="white"
+                    d="M632.7,176l-1.8,38.7c-.4,7.9-3.5,14.9-9.3,20.9-5.9,6-14.3,9-25.3,9h-101.6c-5.9,0-11.2-.9-16-2.8-4.8-1.9-8.5-4.9-11.3-9-2.8-4.1-4-9.5-3.7-16.1l1.5-31.9h31.3l-1.5,33.4h104.2l1.9-41.6-115.5-28c-4.6-1.3-8.1-3-10.7-5.1-2.5-2.1-4.4-4.6-5.5-7.6-1.1-3-1.6-6.4-1.4-10.2l1.9-41.8c.4-8.3,3.3-14.2,8.7-17.7,5.4-3.5,12.4-5.2,20.8-5.2h110.5c7,0,12.5,1.3,16.6,3.8,4.1,2.5,6.9,6.3,8.4,11.2,1.5,4.9,2,10.6,1.7,17.2l-1.1,25.2h-31.7l1.4-31.1h-104.2l-1.7,37.6,118.7,29.1c4,1.1,7,2.6,9.1,4.5,2.1,1.9,3.7,4.2,4.6,7.1.9,2.8,1.3,6.3,1.1,10.5Z" />
+                <path fill="white" d="M738.8,244.7l7.2-156.9h-72.2l1.2-26.9h177l-1.2,26.9h-72.2l-7.2,156.9h-32.6Z" />
+                <path fill="white"
+                    d="M179.1,572.1v-276.6c0-6.1-4.9-11-11-11h-73.3c-6.1,0-11,4.9-11,11v354.2c0,6.1,4.9,11,11,11h209.9c6.1,0,11-4.9,11-11v-55.5c0-6.1-4.9-11-11-11h-114.6c-6.1,0-11-4.9-11-11Z" />
+                <path fill="white"
+                    d="M835.9,411.8c6.1,0,11-4.9,11-11v-34.1c0-25.5-5.1-45.5-15.2-60.2-10.2-14.7-29.5-22-58-22h-80.4c-22.5,0-40.6,4.9-54.4,14.8-13.8,9.8-20.7,26.1-20.7,48.9v239.6c0,25.9,6.9,44.5,20.7,55.9,13.8,11.4,32.2,17.1,55.1,17.1h79.7c19.4,0,34.4-3.8,45-11.3,10.6-7.5,17.9-17.3,22-29.2,4.1-12,6.2-24.3,6.2-37.1v-126.7c0-6.1-4.9-11-11-11h-92.7c-6.1,0-11,4.9-11,11v43.9c0,6.1,4.9,11,11,11h0c6.1,0,11,4.9,11,11v49.7c0,6.1-4.9,11-11,11h-18.8c-6.1,0-11-4.9-11-11v-198.5c0-6.1,4.9-11,11-11h16.2c6.1,0,11,4.9,11,11v27.2c0,6.1,4.9,11,11,11h73.3Z" />
             </g>
         </svg>
     </div>
     <div class="welcome-text">
-        <h4 class="fw-bold text-white">Bem-vindo ao FastLog!</h4>
+        <h1 class="h4 fw-bold text-white">Bem-vindo ao FastLog!</h1>
         <p style="color: rgba(255,255,255,0.7);">A forma mais simples e rápida de consultar o seu status de entrega.</p>
     </div>
 </div>
@@ -79,16 +129,24 @@
         <div class="col-md-5">
             <div class="card shadow search-card">
                 <div class="card-body p-4">
-                    <h5 class="fw-bold text-center mb-3" style="color: #150b5e;">Consultar Status de Pedido</h5>
+                    <h2 class="h5 fw-bold text-center mb-3" style="color: #150b5e;">
+    Consultar Status de Pedido
+</h2>
                     <form method="post" action="{% url 'tracking:order_detail' %}">
                         {% csrf_token %}
                         {% if error %}
-                            <div class="alert alert-danger">{{ error }}</div>
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
                         {% endif %}
-                        <input type="text" id="cnpj" name="cnpj" class="form-control mb-3" placeholder="CNPJ" maxlength="18">
-                        <input type="text" name="nfe" class="form-control mb-3" placeholder="Número da Nota Fiscal (NFe)" maxlength="20">
-                        <button type="submit" class="btn w-100 text-white fw-bold mb-2" style="background: #150b5e; border-radius: 8px; padding: 10px;">Consultar</button>
-                        <a href="{% url 'tracking:dashboard' %}" class="btn w-100 btn-outline-primary fw-bold" style="color: #150b5e; border-color: #150b5e; border-radius: 8px; padding: 10px;">Dashboard de Logística</a>
+                        <label for="cnpj" class="form-label">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" class="form-control mb-3"
+                            placeholder="00.000.000/0000-00" maxlength="18" inputmode="numeric" >
+                        <label for="nfe" class="form-label">Número da Nota Fiscal (NFe)</label>
+                        <input type="text" id="nfe" name="nfe" class="form-control mb-3" maxlength="20" inputmode="numeric">
+                        <button type="submit" class="btn w-100 text-white fw-bold mb-2"
+                            style="background: #150b5e; border-radius: 8px; padding: 10px;">Consultar</button>
+                        <a href="{% url 'tracking:dashboard' %}" class="btn w-100 btn-outline-primary fw-bold"
+                            style="color: #150b5e; border-color: #150b5e; border-radius: 8px; padding: 10px;">Dashboard
+                            de Logística</a>
                     </form>
                 </div>
             </div>
