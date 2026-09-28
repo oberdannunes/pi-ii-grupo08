@@ -85,7 +85,7 @@
                         {% if error %}
                             <div class="alert alert-danger">{{ error }}</div>
                         {% endif %}
-                        <input type="text" name="cnpj" class="form-control mb-3" placeholder="CNPJ" maxlength="18">
+                        <input type="text" id="cnpj" name="cnpj" class="form-control mb-3" placeholder="CNPJ" maxlength="18">
                         <input type="text" name="nfe" class="form-control mb-3" placeholder="Número da Nota Fiscal (NFe)" maxlength="20">
                         <button type="submit" class="btn w-100 text-white fw-bold mb-2" style="background: #150b5e; border-radius: 8px; padding: 10px;">Consultar</button>
                         <a href="{% url 'tracking:dashboard' %}" class="btn w-100 btn-outline-primary fw-bold" style="color: #150b5e; border-color: #150b5e; border-radius: 8px; padding: 10px;">Dashboard de Logística</a>
@@ -95,4 +95,21 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const campoCnpj = document.getElementById("cnpj");
+
+    campoCnpj.addEventListener("input", function () {
+        let valor = campoCnpj.value.replace(/\D/g, "");
+
+        valor = valor.slice(0, 14);
+        valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
+        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        valor = valor.replace(/(\d{4})(\d)/, "$1-$2");
+
+        campoCnpj.value = valor;
+    });
+</script>
 {% endblock %}
