@@ -19,8 +19,6 @@ O ecossistema do projeto foi construído utilizando tecnologias robustas e ampla
 
 A escolha da stack Python/Django/PostgreSQL baseia-se no equilíbrio entre velocidade de entrega e robustez técnica. O Python fornece uma base sólida e legível para o desenvolvimento; o Django acelera a construção da aplicação com segurança e padrões de projeto consolidados; e o PostgreSQL garante que os dados sejam armazenados em um ambiente performático e extensível.
 
-Onde o sistema está funcionando? O sistema oficial já está rodando na internet e pode ser acessado por este link: https://fastlog.bravemoss-a1b57c9b.centraluz.azurecontainerapps.io/
-
 ## Como Funciona (Passo a Passo)
 
 Este guia explica como preparar um computador (com Windows 10 ou 11) para rodar o FastLog, mostrando os programas necessários, o passo a passo da instalação e como o sistema lê planilhas do Excel automaticamente.
@@ -44,7 +42,7 @@ Para colocar o sistema para funcionar no seu computador local, siga as etapas ab
 Você precisa ter o programa Git instalado. Abra o terminal (prompt de comando) do seu computador e digite:
 
 ```bash
-git clone https://github.com/oberdannunes/pi-grupo-05.git
+git clone https://github.com/oberdannunes/pi-ii-grupo08.git
 
 cd pi-grupo-05
 ```
@@ -103,6 +101,32 @@ Pronto! Agora abra o seu navegador de internet (Chrome, Edge, etc.) e digite o e
 
 http://localhost:8000
 
+### Como Rodar os Testes Unitários
+
+Os testes automatizados usam o **pytest** com o plugin **pytest-django**, que já são instalados no Passo 3 (estão no `requirements.txt`). As configurações ficam no arquivo `src/pytest.ini`, então não é preciso informar nada extra.
+
+Com o ambiente virtual ativo, entre na pasta `src` e rode:
+
+```bash
+cd src
+
+pytest
+```
+
+O pytest encontra sozinho todos os arquivos de teste (`test_*.py` e `tests.py`) e mostra o resultado de cada um. Ao final, aparece um resumo com quantos testes passaram e quantos falharam.
+
+Também é possível rodar só uma parte dos testes:
+
+```bash
+# Apenas um arquivo
+pytest tracking/tests/test_api_orders.py
+
+# Apenas os testes cujo nome contém uma palavra
+pytest -k cnpj
+```
+
+_Nota: os testes criam um banco de dados temporário só para eles, que é apagado ao final. Seus dados não são alterados._
+
 ## Como Funciona (Passo a Passo para o usuário comum/cliente)
 
 A jornada de utilização do sistema foi desenhada para ser simples e direta, exigindo poucos comandos por parte do usuário final.
@@ -143,7 +167,51 @@ O FastLog lê a planilha linha por linha. Para garantir que nada dê errado, ele
 
 Ao final, o sistema mostra um relatório: "X linhas foram importadas com sucesso e as linhas Y e Z deram erro". Isso evita que o banco de dados fique bagunçado ou com informações duplicadas. Essa função fica disponível apenas para o administrador dentro do painel de controle.
 
+## Evolução da Ferramenta
 
+Para o projeto Projeto Integrador em Computação II - DRP11 - Turma 001, o FastLog recebeu as seguintes melhorias:
+
+- **API de consulta de pedidos**: api criada na rota `/api/tracking/orders/`, que devolve a lista de pedidos em formato JSON. A API exige autenticação com API Key, o resultado é paginado, e permite ainda o filtro por status, NFe, CNPJ e período.
+- **Dashboard**: painel em `/dashboard/` com indicadores das entregas e filtros por período, estado (UF), transportadora e status. Quando ainda não há pedidos cadastrados, aparece uma mensagem avisando.
+- **Testes unitários com pytest**: testes automatizados para o dashboard, API, consultas e importação da planilha.
+- **Máscara de CNPJ com JavaScript**: na tela de consulta, o campo de CNPJ é formatado sozinho enquanto o usuário digita (`00.000.000/0000-00`). Ele aceita só números e no máximo 14 dígitos.
+- **Acessibilidade**: a tela inicial e as telas de status do pedido ("Entregue" e "Entrega em andamento") ficaram mais fáceis de usar para todas as pessoas. Os campos agora têm rótulos e descrições lidos por leitores de tela, e as mensagens de erro são anunciadas automaticamente. Quem navega pelo teclado vê com clareza onde está o foco, e as animações ficam mais leves para quem configurou o sistema para reduzir movimento.
+
+## Como Gerar a API Key
+
+Para usar a API de consulta de pedidos, quem vai consultar precisa de uma chave de acesso (API Key). Só o administrador pode criar essa chave, pelo painel de administração:
+
+1. Acesse http://localhost:8000/admin e entre com o usuário administrador.
+2. Na seção **API Key Permissions**, clique em **API keys** e depois em **Adicionar** (ou **Add**).
+3. No campo **Name**, informe um nome que identifique quem vai usar a chave (por exemplo, `Sistema Comercial`).
+4. Se quiser que a chave pare de valer em uma data específica, preencha **Expires**. Deixe em branco para a chave não expirar.
+5. Clique em **Salvar**.
+
+Depois de salvar, aparece uma mensagem no topo da tela com a chave completa:
+
+```
+The API key for Sistema Comercial is: AbCdEf12.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx. Please store it somewhere safe: you will not be able to see it again.
+```
+
+**Copie e guarde a chave nesse momento.** Por segurança, ela não fica salva no sistema e não pode ser exibida de novo. Se perder a chave, crie uma nova.
+
+Para cancelar uma chave, abra-a na lista de **API keys**, marque **Revoked** e salve. A partir daí, ela deixa de funcionar.
+
+### Como usar a API Key
+
+A chave deve ser enviada no cabeçalho `Authorization` de cada requisição, com o prefixo `Api-Key`:
+
+```bash
+curl -H "Authorization: Api-Key SUA_CHAVE_AQUI" http://localhost:8000/api/tracking/orders/
+```
+
+Os filtros são passados na própria URL, por exemplo:
+
+```bash
+curl -H "Authorization: Api-Key SUA_CHAVE_AQUI" "http://localhost:8000/api/tracking/orders/?status=ENTREGUE&order_date_after=2026-01-01"
+```
+
+Filtros disponíveis: `status` (`PENDENTE`, `TRANSITO` ou `ENTREGUE`), `nfe`, `cnpj`, `data_pedido_inicio` e `data_pedido_fim` (datas no formato `AAAA-MM-DD`). Sem a chave, ou com uma chave inválida, a API não devolve os dados.
 
 ## Equipe de Desenvolvimento
 
