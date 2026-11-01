@@ -29,15 +29,10 @@ SECRET_KEY = 'django-insecure-1f(47dsqr-yzn-!1ilnw5v-$10al8@qvvd*fy%hjph=eadsta7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost', 
-    '127.0.0.1', 
-    'fastlog.bravemoss-a1b57c9b.centralus.azurecontainerapps.io'
-]
+# Listas separadas por vírgula, ex.: ALLOWED_HOSTS=localhost,meudominio.com
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://fastlog.bravemoss-a1b57c9b.centralus.azurecontainerapps.io'
-]
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(",")
 
 
 # Application definition
