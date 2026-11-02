@@ -24,3 +24,4 @@ urlpatterns = [
     path("tracking/", include("tracking.urls")),
     path("dashboard/", view_dashboard, name="dashboard_root"),
 ]
+
